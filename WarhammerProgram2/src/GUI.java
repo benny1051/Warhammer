@@ -53,30 +53,14 @@ public class GUI extends JFrame {
         ballisticSkillArray.add("6+");
 
         strengthArray=new ArrayList<String>();
-        strengthArray.add("Strength 3");
-        strengthArray.add("Strength 4");
-        strengthArray.add("Strength 5");
-        strengthArray.add("Strength 6");
-        strengthArray.add("Strength 7");
-        strengthArray.add("Strength 8");
-        strengthArray.add("Strength 9");
-        strengthArray.add("Strength 10");
-        strengthArray.add("Strength 11");
-        strengthArray.add("Strength 12");
-        strengthArray.add("Strength 13");
-        strengthArray.add("Strength 14");
-        strengthArray.add("Strength 15");
-        strengthArray.add("Strength 16");
+        for (int i = 3; i <= 16; i++) {
+            strengthArray.add("Strength " + i)          ;
+        }
 
         toughnessArray=new ArrayList<String>();
-        toughnessArray.add("Toughness 3");
-        toughnessArray.add("Toughness 4");
-        toughnessArray.add("Toughness 5");
-        toughnessArray.add("Toughness 6");
-        toughnessArray.add("Toughness 7");
-        toughnessArray.add("Toughness 8");
-        toughnessArray.add("Toughness 9");
-        toughnessArray.add("Toughness 10");
+        for (int i = 3; i <= 10; i++) {
+            toughnessArray.add("Toughness " + i)          ;
+        }
 
         addPanels();
         initListeners();
@@ -132,7 +116,7 @@ public class GUI extends JFrame {
 
     private JPanel midPanel() {
         JPanel panel = new JPanel(new GridLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
+        //panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
         panel.setPreferredSize(new Dimension(300, 400));
 
         panel.add(strengthPanel());
@@ -149,7 +133,7 @@ public class GUI extends JFrame {
     }
     private JPanel toughnessPanel() {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
+        panel.setBorder(BorderFactory.createTitledBorder("Toughness characteristic"));
         panel.setPreferredSize(new Dimension(300, 400));
         toughnessList.setListData(toughnessArray.toArray());
         panel.add(toughnessList, BorderLayout.CENTER);
