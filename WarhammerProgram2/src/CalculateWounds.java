@@ -1,4 +1,7 @@
 
+    import java.beans.PropertyChangeEvent;
+    import java.beans.PropertyChangeListener;
+    import java.beans.PropertyChangeSupport;
     import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,15 +14,18 @@ import java.util.Random;
         private int numOfHits;
         private int numOfWounds;
         private int savedWound;
+        private int AP;
         private int damageTaken;
+
         ArrayList<Integer> result;
 
-        public CalculateWounds(int bs, int str, int tough, int save, int numOfShots) {
+        public CalculateWounds(int bs, int str, int tough, int save, int numOfShots, int AP) {
             this.bs = bs;
             this.str = str;
             this.tough = tough;
             this.save = save;
             this.numOfShots = numOfShots;
+            this.AP= AP;
             result=new ArrayList<Integer>();
             CalculateNumberOfHits(bs);
         }
@@ -92,35 +98,126 @@ import java.util.Random;
                 diceRoll++;
                 System.out.println(diceRoll);
 
+                if (AP == 0) {
+                    if (save == 0 && diceRoll >= 2) {
+                        savedWound++;
+                    }
 
-                if (save == 0 && diceRoll >= 2) {
-                    savedWound++;
+                    if (save == 1 && diceRoll >= 2) {
+                        savedWound++;
+                    }
+
+                    if (save == 2 && diceRoll >= 2) {
+                        savedWound++;
+                    }
+
+                    if (save == 3 && diceRoll >= 3) {
+                        savedWound++;
+                    }
+
+                    if (save == 4 && diceRoll >= 4) {
+                        savedWound++;
+                    }
+
+                    if (save == 5 && diceRoll >= 5) {
+                        savedWound++;
+                    }
+
+                    if (save == 6 && diceRoll == 6) {
+                        savedWound++;
+                    }
                 }
 
-                if (save == 1 && diceRoll >= 2) {
-                    savedWound++;
-                }
+                if (AP == 1) {
+                    if (save == 0 && diceRoll >= 2) {
+                        savedWound++;
+                    }
 
-                if (save == 2 && diceRoll >= 2) {
-                    savedWound++;
-                }
+                    if (save == 1 && diceRoll >= 2) {
+                        savedWound++;
+                    }
 
-                if (save == 3 && diceRoll >= 3) {
-                    savedWound++;
-                }
+                    if (save == 2 && diceRoll >= 3) {
+                        savedWound++;
+                    }
 
-                if (save == 4 && diceRoll >= 4) {
-                    savedWound++;
-                }
+                    if (save == 3 && diceRoll >= 4) {
+                        savedWound++;
+                    }
 
-                if (save == 5 && diceRoll >= 5) {
-                    savedWound++;
-                }
+                    if (save == 4 && diceRoll >= 5) {
+                        savedWound++;
+                    }
 
-                if (save == 6 && diceRoll == 6) {
-                    savedWound++;
+                    if (save == 5 && diceRoll >= 6) {
+                        savedWound++;
+
+
+                    }
+                }
+                if (AP == 2) {
+                    if (save == 0 && diceRoll >= 2) {
+                        savedWound++;
+                    }
+
+                    if (save == 1 && diceRoll >= 3) {
+                        savedWound++;
+                    }
+
+                    if (save == 2 && diceRoll >= 4) {
+                        savedWound++;
+                    }
+
+                    if (save == 3 && diceRoll >= 5) {
+                        savedWound++;
+                    }
+
+                    if (save == 4 && diceRoll >= 6) {
+                        savedWound++;
+                    }
+
+                }
+                if (AP == 3) {
+                    if (save == 0 && diceRoll >= 3) {
+                        savedWound++;
+                    }
+
+                    if (save == 1 && diceRoll >= 4) {
+                        savedWound++;
+                    }
+
+                    if (save == 2 && diceRoll >= 5) {
+                        savedWound++;
+                    }
+
+                    if (save == 3 && diceRoll >= 6) {
+                        savedWound++;
+                    }
+                }
+                if (AP == 4) {
+                    if (save == 0 && diceRoll >= 4) {
+                        savedWound++;
+                    }
+
+                    if (save == 1 && diceRoll >= 5) {
+                        savedWound++;
+                    }
+
+                    if (save == 2 && diceRoll >= 6) {
+                        savedWound++;
+                    }
+                }
+                if (AP == 5) {
+                    if (save == 0 && diceRoll >= 5) {
+                        savedWound++;
+                    }
+
+                    if (save == 1 && diceRoll >= 6) {
+                        savedWound++;
+                    }
                 }
             }
+
             damageTaken = (numOfWounds - savedWound);
             System.out.println("Number of hits " + numOfHits);
             System.out.println("Number of wounds " + numOfWounds);
@@ -130,8 +227,7 @@ import java.util.Random;
             result.add(numOfWounds);
             result.add(savedWound);
             result.add(damageTaken);
-            GUI gui= new GUI();
-            gui.showResult(result);
+
 
 
         }
