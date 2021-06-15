@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +31,10 @@ public class GUI extends JFrame {
     private JList strengthList;
     private JList toughnessList;
     private JList armorPiercingList;
+    CalculateWounds calculateWounds;
     public GUI() {
+        calculateWounds= new CalculateWounds();
+        calculateWounds.addPropertyChangeListener(new AlarmPrinter());
         setTitle("Client UI");
         setLocation(200, 150);
         setVisible(true);
@@ -196,6 +200,22 @@ public class GUI extends JFrame {
                 CalculateWounds calculateWounds= new CalculateWounds(bs,str,tough,save,numOfShots,AP);
             }
 
+        }
+    }
+
+    private class AlarmPrinter implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            if (evt.getPropertyName().equals("message")) {
+                SwingUtilities.invokeLater(new Runnable() {
+                    @Override
+                    public void run() {
+                   //     ballisticSkillList.setListData((Object[]) evt.getNewValue());
+                    }
+                });
+
+            }
         }
     }
 

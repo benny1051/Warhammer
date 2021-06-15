@@ -6,6 +6,7 @@
 import java.util.Random;
 
     public class CalculateWounds {
+        private final PropertyChangeSupport changes= new PropertyChangeSupport(this);
         private int bs;
         private int str;
         private int tough;
@@ -28,6 +29,17 @@ import java.util.Random;
             this.AP= AP;
             result=new ArrayList<Integer>();
             CalculateNumberOfHits(bs);
+        }
+
+        public CalculateWounds() {
+
+        }
+
+        public void addPropertyChangeListener(PropertyChangeListener listener){
+            changes.addPropertyChangeListener(listener);
+        }
+        public void removePropertyChangeListener(PropertyChangeListener listener){
+            changes.removePropertyChangeListener(listener);
         }
 
         public void CalculateNumberOfHits(int bs) {
@@ -227,7 +239,7 @@ import java.util.Random;
             result.add(numOfWounds);
             result.add(savedWound);
             result.add(damageTaken);
-
+            changes.firePropertyChange("message", false, result);
 
 
         }
