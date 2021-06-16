@@ -44,11 +44,13 @@ import java.util.Random;
 
         public void CalculateNumberOfHits(int bs) {
             Random random = new Random();
-
+            System.out.print("hits: ");
             for (int i = 0; i < numOfShots; i++) {
                 int diceRoll = random.nextInt(6);
                 diceRoll++;
-                System.out.println(diceRoll);
+
+                System.out.print(diceRoll+ ",");
+
 
                 if (bs == 0 && diceRoll >= 2) {
                     numOfHits++;
@@ -66,7 +68,7 @@ import java.util.Random;
                     numOfHits++;
                 }
             }
-
+            System.out.println();
             CalculateNumOfWounds(numOfHits);
         }
 
@@ -74,10 +76,11 @@ import java.util.Random;
             Random random = new Random();
             str++;
             tough++;
+            System.out.print("Wounds: ");
             for (int i = 0; i < numOfHits; i++) {
                 int diceRoll = random.nextInt(6);
                 diceRoll++;
-                System.out.println(diceRoll);
+                System.out.print(diceRoll+ ",");
 
 
                 if (str == tough && diceRoll >= 4) {
@@ -97,6 +100,7 @@ import java.util.Random;
                 }
 
             }
+            System.out.println();
             calculateSaves(numOfWounds);
 
 
@@ -104,11 +108,11 @@ import java.util.Random;
 
         public void calculateSaves(int numOfWounds) {
             Random random = new Random();
-
+            System.out.print("Saves: ");
             for (int i = 0; i < numOfWounds; i++) {
                 int diceRoll = random.nextInt(6);
                 diceRoll++;
-                System.out.println(diceRoll);
+                System.out.print(diceRoll+ ",");
 
                 if (AP == 0) {
                     if (save == 0 && diceRoll >= 2) {
@@ -229,7 +233,7 @@ import java.util.Random;
                     }
                 }
             }
-
+            System.out.println();
             damageTaken = (numOfWounds - savedWound);
             System.out.println("Number of hits " + numOfHits);
             System.out.println("Number of wounds " + numOfWounds);
