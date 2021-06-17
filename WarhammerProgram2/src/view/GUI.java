@@ -22,6 +22,8 @@ public class GUI extends JFrame {
     private JButton reset;
     private JRadioButton rerollOneToHit;
     private JRadioButton rerollOneToWound;
+    private JRadioButton rerollAllHits;
+    private JRadioButton rerollAllWounds;
     private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
@@ -95,6 +97,8 @@ public class GUI extends JFrame {
         reset=new JButton("Reset");
         rerollOneToHit = new JRadioButton("Reroll 1´s to hit");
         rerollOneToWound= new JRadioButton("Reroll 1´s to wound");
+        rerollAllHits = new JRadioButton("Reroll all hits");
+        rerollAllWounds = new JRadioButton("Reroll all wounds");
 
         saveList = new JList();
         ballisticSkillList=new JList();
@@ -130,8 +134,6 @@ public class GUI extends JFrame {
         JPanel panel= new JPanel(new GridLayout(1,2));
         shotsLabel.setPreferredSize(new Dimension(100,30));
         shots.setPreferredSize(new Dimension(150,30));
-        panel.add(shotsLabel,BorderLayout.WEST);
-        panel.add(shots, BorderLayout.EAST);
         panel.add(fire,BorderLayout.SOUTH);
         return panel;
     }
@@ -210,12 +212,16 @@ public class GUI extends JFrame {
 
     private JPanel specialPanel(){
         JPanel panel= new JPanel(new FlowLayout());
-        rerollOneToHit.setPreferredSize(new Dimension(200,30));
-        rerollOneToWound.setPreferredSize(new Dimension(200,30));
-        panel.add(rerollOneToHit,BorderLayout.WEST);
-        panel.add(rerollOneToWound, BorderLayout.EAST);
+       // rerollOneToHit.setPreferredSize(new Dimension(200,30));
+        // rerollOneToWound.setPreferredSize(new Dimension(200,30));
+        panel.add(rerollOneToHit);
+        panel.add(rerollAllHits);
+        panel.add(rerollOneToWound);
+        panel.add(rerollAllWounds);
+        panel.add(shotsLabel);
+        panel.add(shots);
         return panel;
-        //TODO Add listeners to JRadiobuttons on this panel.
+
     }
 
 
@@ -246,8 +252,11 @@ public class GUI extends JFrame {
                 int damage = damageList.getSelectedIndex();
                 boolean reRollHitOnes= rerollOneToHit.isSelected();
                 boolean reRollWoundOnes=rerollOneToWound.isSelected();
+                boolean reRollAllHits= rerollAllHits.isSelected();
+                boolean reRollAllWounds= rerollAllWounds.isSelected();
 
-                CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,reRollWoundOnes);
+                CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,
+                        reRollWoundOnes,reRollAllHits,reRollAllWounds);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
             } else if (e.getSource() == reset) {
