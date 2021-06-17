@@ -20,6 +20,9 @@ public class GUI extends JFrame {
     private JTextField shots;
     private JLabel shotsLabel;
     private JButton reset;
+    private JRadioButton rerollOneToHit;
+    private JRadioButton getRerollOneToWound;
+    private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
     private ArrayList<String> ballisticSkillArray;
@@ -70,10 +73,10 @@ public class GUI extends JFrame {
         }
 
         damageArray= new ArrayList<String>();
+        damageArray.add("D3");
         damageArray.add("1");
         damageArray.add("2");
         damageArray.add("3");
-        damageArray.add("D3");
         damageArray.add("4");
         damageArray.add("5");
         damageArray.add("6");
@@ -92,6 +95,9 @@ public class GUI extends JFrame {
         shotsLabel=new JLabel("Num Of Bullets?");
         shots= new JTextField();
         reset=new JButton("Reset");// Finns ingen funktion på den än. Bara syns.
+        rerollOneToHit = new JRadioButton("Reroll 1´s to hit");
+        getRerollOneToWound= new JRadioButton("Reroll 1´s to wound");
+
         saveList = new JList();
         ballisticSkillList=new JList();
         strengthList=new JList();
@@ -101,6 +107,7 @@ public class GUI extends JFrame {
         panel.add(midPanel(), BorderLayout.CENTER);
         panel.add(leftPanel(), BorderLayout.WEST);
         panel.add(rightPanel(), BorderLayout.EAST);
+        panel.add(specialPanel(), BorderLayout.SOUTH);
 
         add(panel);
 
@@ -112,8 +119,11 @@ public class GUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createTitledBorder("Ballistic skill"));
         panel.setPreferredSize(new Dimension(300, 400));
+
         ballisticSkillList.setListData(ballisticSkillArray.toArray());
-        panel.add(ballisticSkillList, BorderLayout.CENTER);
+        ballisticScrollPane=new JScrollPane(ballisticSkillList);
+        ballisticScrollPane.setPreferredSize(new Dimension(300, 400));
+        panel.add(ballisticScrollPane, BorderLayout.CENTER);
         panel.add(reset,BorderLayout.SOUTH);
         return panel;
     }
@@ -200,6 +210,16 @@ public class GUI extends JFrame {
         return panel;
     }
 
+    private JPanel specialPanel(){
+        JPanel panel= new JPanel(new FlowLayout());
+        rerollOneToHit.setPreferredSize(new Dimension(200,30));
+        getRerollOneToWound.setPreferredSize(new Dimension(200,30));
+        panel.add(rerollOneToHit,BorderLayout.WEST);
+        panel.add(getRerollOneToWound, BorderLayout.EAST);
+        return panel;
+        //TODO Add listeners to JRadiobuttons on this panel.
+    }
+
 
 
     private void initListeners() {
@@ -214,9 +234,6 @@ public class GUI extends JFrame {
         });
     }
 
-    public void showResult(ArrayList<Integer> result) {
-
-    }
 
 
     private class ButtonListener implements ActionListener {

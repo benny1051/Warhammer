@@ -5,8 +5,7 @@ import model.RandomDice;
 import java.util.Random;
 
 public class CalculateWounds {
-    private int str;
-    private int tough;
+
     private int numOfWounds;
 
     RandomDice randomDice;
@@ -17,14 +16,16 @@ public class CalculateWounds {
 
     }
 
-    public int CalculateNumOfWounds(int numOfHits) {
+    public int CalculateNumOfWounds(int numOfHits, int str, int tough) {
 
-        str++;
-        tough++;
+        str=str+3;
+        tough=tough+3;
         System.out.print("Wounds: ");
+
         for (int i = 0; i < numOfHits; i++) {
             int diceRoll = randomDice.randomD6();
             System.out.print(diceRoll+ ",");
+
 
 
             if (str == tough && diceRoll >= 4) {

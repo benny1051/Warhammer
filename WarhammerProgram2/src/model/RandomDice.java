@@ -11,4 +11,13 @@ public class RandomDice {
         return diceRoll;
 
     }
+    public int randomD3() {
+
+        java.util.Random random = new java.util.Random();
+        int diceRoll = random.nextInt(3);
+        diceRoll++;
+
+        return diceRoll;
+
+    }
 }

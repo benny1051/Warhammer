@@ -25,6 +25,7 @@ import java.util.Random;
         CalculateHits calculateHits;
         CalculateWounds calculateWounds;
         CalculateSaves calculateSaves;
+        CalculateDamage calculateDamage;
 
         ArrayList<String> result;
 
@@ -33,6 +34,7 @@ import java.util.Random;
             calculateHits=new CalculateHits(bs,numOfShots);
             calculateWounds=new CalculateWounds();
             calculateSaves= new CalculateSaves();
+            calculateDamage= new CalculateDamage();
             this.bs = bs;
             this.str = str;
             this.tough = tough;
@@ -44,17 +46,28 @@ import java.util.Random;
 
         }
 
-        public void start(){
-            numOfHits= calculateHits.calculateNumberOfHits();
-            numOfWounds= calculateWounds.CalculateNumOfWounds(numOfHits);
-            savedWound= calculateSaves.calculateSaves(numOfWounds,AP,save);
+        public void start() {
+            numOfHits = calculateHits.calculateNumberOfHits();
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough);
+            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save);
 
             damageTaken = (numOfWounds - savedWound);
-            
-            result.add("Number of hits " + numOfHits);
-            result.add("Number of wounds " + numOfWounds);
+            result.add("Nbr of hits " + numOfHits);
+            result.add("Nbr of wounds " + numOfWounds);
             result.add("saves made " + savedWound);
             result.add("Wounds taken " + damageTaken);
+            result.add(calculateDamage.calculateTheDamage(damage));
+            if (damage == 0) {
+                for (int i = 0; i < damageTaken; i++) {
+                    int randomD3 = randomDice.randomD3();
+                    result.add("D3 Damage = " + randomD3);
+                }
+            } else if (damage == 7) {
+                for (int i = 0; i < damageTaken; i++) {
+                    int randomD6 = randomDice.randomD6();
+                    result.add("D6 Damage = " + randomD6);
+                }
+            }
             changes.firePropertyChange("message", false, result.toArray());
         }
 
