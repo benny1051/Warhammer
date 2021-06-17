@@ -7,6 +7,7 @@ import java.util.Random;
 public class CalculateWounds {
 
     private int numOfWounds;
+    private int diceNbrOne;
 
     RandomDice randomDice;
 
@@ -16,7 +17,7 @@ public class CalculateWounds {
 
     }
 
-    public int CalculateNumOfWounds(int numOfHits, int str, int tough) {
+    public int CalculateNumOfWounds(int numOfHits, int str, int tough, boolean reRollWoundOnes) {
 
         str=str+3;
         tough=tough+3;
@@ -26,7 +27,9 @@ public class CalculateWounds {
             int diceRoll = randomDice.randomD6();
             System.out.print(diceRoll+ ",");
 
-
+            if (diceRoll==1){
+                diceNbrOne++;
+            }
 
             if (str == tough && diceRoll >= 4) {
                 numOfWounds++;
@@ -45,8 +48,33 @@ public class CalculateWounds {
             }
 
         }
+        reRollWound1(diceNbrOne,reRollWoundOnes,str,tough);
         System.out.println();
 
         return numOfWounds;
+    }
+    public void reRollWound1(int diceNbrOne, boolean reRollWoundOnes, int str, int tough){
+        if (reRollWoundOnes){
+            for (int i = 0; i < diceNbrOne; i++) {
+                int diceRoll = randomDice.randomD6();
+                System.out.print("new "+ diceRoll+ ",");
+                if (str == tough && diceRoll >= 4) {
+                    numOfWounds++;
+                }
+                if (str > tough && str < (tough * 2) && diceRoll >= 3) {
+                    numOfWounds++;
+                }
+                if (tough > str && tough < (str * 2) && diceRoll >= 5) {
+                    numOfWounds++;
+                }
+                if (str >= (tough * 2) && diceRoll >= 2) {
+                    numOfWounds++;
+                }
+                if (tough >= (str * 2) && diceRoll >= 6) {
+                    numOfWounds++;
+                }
+
+            }
+        }
     }
 }

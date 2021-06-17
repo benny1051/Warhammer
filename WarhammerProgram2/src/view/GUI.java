@@ -21,7 +21,7 @@ public class GUI extends JFrame {
     private JLabel shotsLabel;
     private JButton reset;
     private JRadioButton rerollOneToHit;
-    private JRadioButton getRerollOneToWound;
+    private JRadioButton rerollOneToWound;
     private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
@@ -41,8 +41,6 @@ public class GUI extends JFrame {
 
 
     public GUI() {
-        //calculateWounds= new CalculateWounds();
-
         setTitle("Client UI");
         setLocation(200, 150);
         setVisible(true);
@@ -94,9 +92,9 @@ public class GUI extends JFrame {
         fire=new JButton("Fire!");
         shotsLabel=new JLabel("Num Of Bullets?");
         shots= new JTextField();
-        reset=new JButton("Reset");// Finns ingen funktion på den än. Bara syns.
+        reset=new JButton("Reset");
         rerollOneToHit = new JRadioButton("Reroll 1´s to hit");
-        getRerollOneToWound= new JRadioButton("Reroll 1´s to wound");
+        rerollOneToWound= new JRadioButton("Reroll 1´s to wound");
 
         saveList = new JList();
         ballisticSkillList=new JList();
@@ -213,9 +211,9 @@ public class GUI extends JFrame {
     private JPanel specialPanel(){
         JPanel panel= new JPanel(new FlowLayout());
         rerollOneToHit.setPreferredSize(new Dimension(200,30));
-        getRerollOneToWound.setPreferredSize(new Dimension(200,30));
+        rerollOneToWound.setPreferredSize(new Dimension(200,30));
         panel.add(rerollOneToHit,BorderLayout.WEST);
-        panel.add(getRerollOneToWound, BorderLayout.EAST);
+        panel.add(rerollOneToWound, BorderLayout.EAST);
         return panel;
         //TODO Add listeners to JRadiobuttons on this panel.
     }
@@ -246,38 +244,40 @@ public class GUI extends JFrame {
                 int numOfShots = Integer.parseInt(shots.getText());
                 int AP = armorPiercingList.getSelectedIndex();
                 int damage = damageList.getSelectedIndex();
+                boolean reRollHitOnes= rerollOneToHit.isSelected();
+                boolean reRollWoundOnes=rerollOneToWound.isSelected();
 
-                CalculateController calculateController = new CalculateController(bs,str,tough,save,numOfShots,AP,damage);
+                CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,reRollWoundOnes);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
-            } else if (e.getSource()==reset) {
+            } else if (e.getSource() == reset) {
 
                 ballisticSkillList.setListData(ballisticSkillArray.toArray());
 
             }
-
         }
     }
 
-    private class AlarmPrinter implements PropertyChangeListener {
+        private class AlarmPrinter implements PropertyChangeListener {
 
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            if (evt.getPropertyName().equals("message")) {
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        ballisticSkillList.setListData((Object[]) evt.getNewValue());
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                if (evt.getPropertyName().equals("message")) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            ballisticSkillList.setListData((Object[]) evt.getNewValue());
 
-                    }
-                });
+                        }
+                    });
 
+                }
             }
         }
     }
 
 
-}
+
 
 
 
