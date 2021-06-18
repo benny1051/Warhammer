@@ -9,16 +9,21 @@ public class CalculateHits {
     private boolean reRollHitOnes;
     private int diceNbrOne;
     private int failedDice;
-    boolean reRollAllHits;
+    private boolean reRollAllHits;
+    private boolean explodingSix;
+    private int diceNbrSix;
+    private boolean teslaHits;
 
     RandomDice randomDice;
 
-    public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits) {
+    public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits, boolean explodingSix, boolean teslaHits) {
         this.bs = bs;
         this.numOfShots = numOfShots;
         randomDice = new RandomDice();
         this.reRollHitOnes = reRollHitOnes;
         this.reRollAllHits = reRollAllHits;
+        this.explodingSix = explodingSix;
+        this.teslaHits=teslaHits;
     }
 
     public int calculateNumberOfHits() {
@@ -30,6 +35,9 @@ public class CalculateHits {
             System.out.print(diceRoll + ",");
             if (diceRoll == 1) {
                 diceNbrOne++;
+            }
+            if (diceRoll == 6) {
+                diceNbrSix++;
             }
 
             if (bs == 0 && diceRoll >= 2) {
@@ -51,6 +59,8 @@ public class CalculateHits {
         reRollHit1(diceNbrOne);
         failedDice = (numOfShots - numOfHits);
         reRollall(failedDice);
+        explodingDice(diceNbrSix);
+        tesla(diceNbrSix);
         System.out.println();
         return numOfHits;
     }
@@ -102,4 +112,22 @@ public class CalculateHits {
             }
         }
     }
-}
+
+    public void explodingDice(int diceNbrSix) {
+        if (explodingSix) {
+            for (int i = 0; i < diceNbrSix; i++) {
+                System.out.print("Expl, ");
+                    numOfHits++;
+                }
+            }
+        }
+
+    public void tesla(int diceNbrSix) {
+        if (teslaHits) {
+            for (int i = 0; i < diceNbrSix; i++) {
+                System.out.print("Tesla, ");
+                numOfHits= numOfHits+2;
+            }
+        }
+    }
+    }

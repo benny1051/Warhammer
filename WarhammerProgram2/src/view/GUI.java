@@ -24,6 +24,8 @@ public class GUI extends JFrame {
     private JRadioButton rerollOneToWound;
     private JRadioButton rerollAllHits;
     private JRadioButton rerollAllWounds;
+    private JRadioButton exploding6;
+    private JRadioButton teslaShots;
     private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
@@ -43,7 +45,7 @@ public class GUI extends JFrame {
 
 
     public GUI() {
-        setTitle("Client UI");
+        setTitle("Kill calculator");
         setLocation(200, 150);
         setVisible(true);
 
@@ -99,6 +101,8 @@ public class GUI extends JFrame {
         rerollOneToWound= new JRadioButton("Reroll 1´s to wound");
         rerollAllHits = new JRadioButton("Reroll all hits");
         rerollAllWounds = new JRadioButton("Reroll all wounds");
+        exploding6 = new JRadioButton("Expl 6");
+        teslaShots = new JRadioButton("Tesla");
 
         saveList = new JList();
         ballisticSkillList=new JList();
@@ -218,6 +222,8 @@ public class GUI extends JFrame {
         panel.add(rerollAllHits);
         panel.add(rerollOneToWound);
         panel.add(rerollAllWounds);
+        panel.add(exploding6);
+        panel.add(teslaShots);
         panel.add(shotsLabel);
         panel.add(shots);
         return panel;
@@ -254,9 +260,11 @@ public class GUI extends JFrame {
                 boolean reRollWoundOnes=rerollOneToWound.isSelected();
                 boolean reRollAllHits= rerollAllHits.isSelected();
                 boolean reRollAllWounds= rerollAllWounds.isSelected();
+                boolean explodingSix=exploding6.isSelected();
+                boolean teslaHits = teslaShots.isSelected();
 
                 CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,
-                        reRollWoundOnes,reRollAllHits,reRollAllWounds);
+                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
             } else if (e.getSource() == reset) {
