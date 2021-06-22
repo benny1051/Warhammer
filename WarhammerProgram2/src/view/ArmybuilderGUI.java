@@ -6,16 +6,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.http.WebSocket;
+import java.util.ArrayList;
 import java.util.jar.JarFile;
 
 public class ArmybuilderGUI extends JFrame {
     private JList unitsList;
     private JList chosenUnitsList;
+    private JList descriptionList;
 
     private JButton addToList;
     private JButton next;
     private Drukhari drukhari;
+
 
     public ArmybuilderGUI() {
         setTitle("Army builder");
@@ -23,6 +28,7 @@ public class ArmybuilderGUI extends JFrame {
         setVisible(true);
 
         drukhari = new Drukhari();
+
 
         addPanels();
         //initListeners();
@@ -80,7 +86,20 @@ public class ArmybuilderGUI extends JFrame {
         ActionListener listener = new armyListener();
         addToList.addActionListener(listener);
         next.addActionListener(listener);
+        unitsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() > 1) {
+                  int selectedIndex = unitsList.getSelectedIndex();
+                  drukhari.addtoList(selectedIndex);
+                    chosenUnitsList.setListData(drukhari.getUnitList());
+
+                }
+            }
+        });
     }
+
+
 
     private class armyListener implements ActionListener{
 
@@ -88,7 +107,7 @@ public class ArmybuilderGUI extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource()==next){
-                unitsList.setListData(drukhari.getTroops());
+              //  unitsList.setListData(drukhari.getTroops());
             }
         }
     }
