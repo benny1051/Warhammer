@@ -10,18 +10,21 @@ public class CalculateHits {
     private int diceNbrOne;
     private int failedDice;
     private boolean reRollAllHits;
+    private boolean explodingFive;
     private boolean explodingSix;
+    private int diceNbrFive;
     private int diceNbrSix;
     private boolean teslaHits;
 
     RandomDice randomDice;
 
-    public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits, boolean explodingSix, boolean teslaHits) {
+    public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits, boolean explodingSix, boolean teslaHits, boolean explodingFive) {
         this.bs = bs;
         this.numOfShots = numOfShots;
         randomDice = new RandomDice();
         this.reRollHitOnes = reRollHitOnes;
         this.reRollAllHits = reRollAllHits;
+        this.explodingFive=explodingFive;
         this.explodingSix = explodingSix;
         this.teslaHits=teslaHits;
     }
@@ -36,10 +39,12 @@ public class CalculateHits {
             if (diceRoll == 1) {
                 diceNbrOne++;
             }
+            if (diceRoll == 5) {
+                diceNbrFive++;
+            }
             if (diceRoll == 6) {
                 diceNbrSix++;
             }
-
             if (bs == 0 && diceRoll >= 2) {
                 numOfHits++;
             }
@@ -59,10 +64,21 @@ public class CalculateHits {
         reRollHit1(diceNbrOne);
         failedDice = (numOfShots - numOfHits);
         reRollall(failedDice);
+        explodingDiceFive(diceNbrFive,diceNbrSix);
         explodingDice(diceNbrSix);
         tesla(diceNbrSix);
         System.out.println();
         return numOfHits;
+    }
+
+    private void explodingDiceFive(int diceNbrFive, int diceNbrSix) {
+        if (explodingFive) {
+            int totalDice=(diceNbrFive+diceNbrSix);
+            for (int i = 0; i < totalDice; i++) {
+                System.out.print("Expl, ");
+                numOfHits++;
+            }
+        }
     }
 
     public void reRollHit1(int diceNbrOne) {
@@ -70,6 +86,12 @@ public class CalculateHits {
             for (int i = 0; i < diceNbrOne; i++) {
                 int diceRoll = randomDice.randomD6();
                 System.out.print("new " + diceRoll + ",");
+                if (diceRoll == 5) {
+                    diceNbrFive++;
+                }
+                if (diceRoll == 6) {
+                    diceNbrSix++;
+                }
                 if (bs == 0 && diceRoll >= 2) {
                     numOfHits++;
                 }
@@ -94,6 +116,12 @@ public class CalculateHits {
             for (int i = 0; i < failedDice; i++) {
                 int diceRoll = randomDice.randomD6();
                 System.out.print("new " + diceRoll + ",");
+                if (diceRoll == 5) {
+                    diceNbrFive++;
+                }
+                if (diceRoll == 6) {
+                    diceNbrSix++;
+                }
                 if (bs == 0 && diceRoll >= 2) {
                     numOfHits++;
                 }

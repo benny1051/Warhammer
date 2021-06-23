@@ -17,6 +17,7 @@ import static java.lang.String.valueOf;
 public class GUI extends JFrame {
 
     private JButton fire;
+    private JButton armybuilderButton;
     private JTextField shots;
     private JLabel shotsLabel;
     private JButton reset;
@@ -24,6 +25,7 @@ public class GUI extends JFrame {
     private JRadioButton rerollOneToWound;
     private JRadioButton rerollAllHits;
     private JRadioButton rerollAllWounds;
+    private JRadioButton exploding5;
     private JRadioButton exploding6;
     private JRadioButton teslaShots;
     private JScrollPane ballisticScrollPane;
@@ -94,6 +96,7 @@ public class GUI extends JFrame {
     private void addPanels() {
         JPanel panel = new JPanel(new BorderLayout());
         fire=new JButton("Fire!");
+        armybuilderButton= new JButton("Armybuilder");
         shotsLabel=new JLabel("Num Of Bullets?");
         shots= new JTextField();
         reset=new JButton("Reset");
@@ -101,6 +104,7 @@ public class GUI extends JFrame {
         rerollOneToWound= new JRadioButton("Reroll 1´s to wound");
         rerollAllHits = new JRadioButton("Reroll all hits");
         rerollAllWounds = new JRadioButton("Reroll all wounds");
+        exploding5 = new JRadioButton("expl 5");
         exploding6 = new JRadioButton("Expl 6");
         teslaShots = new JRadioButton("Tesla");
 
@@ -222,10 +226,12 @@ public class GUI extends JFrame {
         panel.add(rerollAllHits);
         panel.add(rerollOneToWound);
         panel.add(rerollAllWounds);
+        panel.add(exploding5);
         panel.add(exploding6);
         panel.add(teslaShots);
         panel.add(shotsLabel);
         panel.add(shots);
+        panel.add(armybuilderButton);
         return panel;
 
     }
@@ -236,6 +242,7 @@ public class GUI extends JFrame {
         ActionListener listener = new ButtonListener();
         fire.addActionListener(listener);
         reset.addActionListener(listener);
+        armybuilderButton.addActionListener(listener);
 
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -260,18 +267,22 @@ public class GUI extends JFrame {
                 boolean reRollWoundOnes=rerollOneToWound.isSelected();
                 boolean reRollAllHits= rerollAllHits.isSelected();
                 boolean reRollAllWounds= rerollAllWounds.isSelected();
+                boolean explodingFive= exploding5.isSelected();
                 boolean explodingSix=exploding6.isSelected();
                 boolean teslaHits = teslaShots.isSelected();
 
                 CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,
-                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits);
+                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
             } else if (e.getSource() == reset) {
 
                 ballisticSkillList.setListData(ballisticSkillArray.toArray());
 
+            } else if (e.getSource() == armybuilderButton) {
+                ArmybuilderGUI armybuilderGUI=new ArmybuilderGUI();
             }
+
         }
     }
 
