@@ -28,6 +28,7 @@ public class GUI extends JFrame {
     private JRadioButton exploding5;
     private JRadioButton exploding6;
     private JRadioButton teslaShots;
+    private JRadioButton fnp5;
     private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
@@ -107,6 +108,8 @@ public class GUI extends JFrame {
         exploding5 = new JRadioButton("expl 5");
         exploding6 = new JRadioButton("Expl 6");
         teslaShots = new JRadioButton("Tesla");
+        fnp5 = new JRadioButton("5+ fnp");
+
 
         saveList = new JList();
         ballisticSkillList=new JList();
@@ -232,6 +235,7 @@ public class GUI extends JFrame {
         panel.add(shotsLabel);
         panel.add(shots);
         panel.add(armybuilderButton);
+        panel.add(fnp5);
         return panel;
 
     }
@@ -270,9 +274,10 @@ public class GUI extends JFrame {
                 boolean explodingFive= exploding5.isSelected();
                 boolean explodingSix=exploding6.isSelected();
                 boolean teslaHits = teslaShots.isSelected();
+                boolean feelNoPain5 = fnp5.isSelected();
 
                 CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,
-                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive);
+                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive,feelNoPain5);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
             } else if (e.getSource() == reset) {

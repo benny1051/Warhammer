@@ -16,7 +16,7 @@ public class CalculateSaves {
     }
 
 
-    public int calculateSaves(int numOfWounds, int AP, int save) {
+    public int calculateSaves(int numOfWounds, int AP, int save, boolean feelNoPain5) {
         System.out.print("Saves: ");
         for (int i = 0; i < numOfWounds; i++) {
             int diceRoll = randomDice.randomD6();
@@ -141,7 +141,22 @@ public class CalculateSaves {
                 }
             }
         }
+        int possibleFNP= numOfWounds-savedWound;
+        flNoPain5(possibleFNP,feelNoPain5);
+
         System.out.println();
         return savedWound;
+    }
+
+   public void flNoPain5(int possibleFNP, boolean feelNoPain5){
+       if (feelNoPain5) {
+           for (int i = 0; i < possibleFNP; i++) {
+               int diceRoll = randomDice.randomD6();
+               System.out.print(diceRoll + "FNP,");
+               if (diceRoll>=5){
+                   savedWound++;
+               }
+           }
+       }
     }
 }

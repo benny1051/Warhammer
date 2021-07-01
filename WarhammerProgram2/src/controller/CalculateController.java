@@ -28,16 +28,18 @@ import java.util.Random;
         private boolean explodingSix;
         private boolean teslaHits;
         private boolean explodingFive;
+        private boolean feelNoPain5;
         RandomDice randomDice;
         CalculateHits calculateHits;
         CalculateWounds calculateWounds;
         CalculateSaves calculateSaves;
         CalculateDamage calculateDamage;
 
+
         ArrayList<String> result;
 
         public CalculateController(int bs, int str, int tough, int save, int numOfShots, int AP, int damage, boolean reRollHitOnes,
-                                   boolean reRollWoundOnes, boolean reRollAllHits, boolean reRollAllWounds, boolean explodingSix, boolean teslaHits, boolean explodingFive) {
+                                   boolean reRollWoundOnes, boolean reRollAllHits, boolean reRollAllWounds, boolean explodingSix, boolean teslaHits, boolean explodingFive, boolean feelNoPain5) {
             randomDice= new RandomDice();
             calculateWounds=new CalculateWounds();
             calculateSaves= new CalculateSaves();
@@ -56,6 +58,7 @@ import java.util.Random;
             this.explodingFive= explodingFive;
             this.explodingSix=explodingSix;
             this.teslaHits= teslaHits;
+            this.feelNoPain5= feelNoPain5;
             result=new ArrayList<String>();
             calculateHits=new CalculateHits(bs,numOfShots, reRollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive);
 
@@ -64,7 +67,7 @@ import java.util.Random;
         public void start() {
             numOfHits = calculateHits.calculateNumberOfHits();
             numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough,reRollWoundOnes,reRollAllWounds);
-            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save);
+            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save,feelNoPain5);
 
             damageTaken = (numOfWounds - savedWound);
             result.add("Nbr of hits " + numOfHits);

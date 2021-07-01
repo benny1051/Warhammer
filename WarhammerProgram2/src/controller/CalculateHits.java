@@ -7,11 +7,14 @@ public class CalculateHits {
     private int numOfShots;
     private int numOfHits;
     private boolean reRollHitOnes;
-    private int diceNbrOne;
     private int failedDice;
     private boolean reRollAllHits;
     private boolean explodingFive;
     private boolean explodingSix;
+    private int diceNbrOne;
+    private int diceNbrTwo;
+    private int diceNbrThree;
+    private int diceNbrFour;
     private int diceNbrFive;
     private int diceNbrSix;
     private boolean teslaHits;
@@ -31,13 +34,22 @@ public class CalculateHits {
 
     public int calculateNumberOfHits() {
 
-        System.out.print("hits: ");
+        System.out.print("Hits: ");
         for (int i = 0; i < numOfShots; i++) {
             int diceRoll = randomDice.randomD6();
 
             System.out.print(diceRoll + ",");
             if (diceRoll == 1) {
                 diceNbrOne++;
+            }
+            if (diceRoll == 2) {
+                diceNbrTwo++;
+            }
+            if (diceRoll == 3) {
+                diceNbrThree++;
+            }
+            if (diceRoll == 4) {
+                diceNbrFour++;
             }
             if (diceRoll == 5) {
                 diceNbrFive++;
@@ -64,9 +76,12 @@ public class CalculateHits {
         reRollHit1(diceNbrOne);
         failedDice = (numOfShots - numOfHits);
         reRollall(failedDice);
-        explodingDiceFive(diceNbrFive,diceNbrSix);
+        explodingDiceFive(diceNbrFive, diceNbrSix);
         explodingDice(diceNbrSix);
         tesla(diceNbrSix);
+        System.out.println();
+        System.out.println("Hits: One: " + diceNbrOne + "      Two: " + diceNbrTwo + "        Three: " + diceNbrThree +
+                "       Four: " + diceNbrFour + "      Five: " + diceNbrFive + "        Six: " + diceNbrSix);
         System.out.println();
         return numOfHits;
     }
