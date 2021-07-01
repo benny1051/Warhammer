@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.http.WebSocket;
 import java.util.ArrayList;
 import java.util.jar.JarFile;
@@ -20,7 +21,7 @@ public class ArmybuilderGUI extends JFrame {
     private JLabel totalCost;
 
     private JButton addToList;
-    private JButton next;
+    private JButton save;
     private JTextArea decriptionArea;
     private Drukhari drukhari;
 
@@ -41,7 +42,7 @@ public class ArmybuilderGUI extends JFrame {
     private void addPanels() {
         JPanel panel = new JPanel(new BorderLayout());
         addToList = new JButton("Add");
-        next = new JButton("Next");
+        save = new JButton("Save");
         decriptionArea= new JTextArea();
         totalCost= new JLabel();
 
@@ -86,6 +87,7 @@ public class ArmybuilderGUI extends JFrame {
         panel.setPreferredSize(new Dimension(300, 600));
         panel.add(decriptionArea,BorderLayout.CENTER);
         panel.add(totalCost,BorderLayout.SOUTH);
+        panel.add(save,BorderLayout.SOUTH);
 
         return panel;
     }
@@ -93,7 +95,7 @@ public class ArmybuilderGUI extends JFrame {
     private void initListeners() {
         ActionListener listener = new armyListener();
         addToList.addActionListener(listener);
-        next.addActionListener(listener);
+        save.addActionListener(listener);
         unitsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -141,8 +143,12 @@ public class ArmybuilderGUI extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource()==next){
-           //     unitsList.setListData(drukhari.getEquipment());
+            if (e.getSource()==save){
+                try {
+                    drukhari.saveList();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         }
     }
