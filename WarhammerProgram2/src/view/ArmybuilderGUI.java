@@ -1,6 +1,6 @@
 package view;
 
-import model.Drukhari;
+import model.Team;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,21 +9,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.http.WebSocket;
-import java.util.ArrayList;
-import java.util.jar.JarFile;
 
 public class ArmybuilderGUI extends JFrame {
     private JList unitsList;
     private JList chosenUnitsList;
     private JList descriptionList;
     private JList equipmentList;
+    private JList traitsList;
     private JLabel totalCost;
 
     private JButton addToList;
     private JButton save;
+    private JButton readList;
+    private JButton deleteFromUnitList;
     private JTextArea decriptionArea;
-    private Drukhari drukhari;
+    private Team team;
 
 
     public ArmybuilderGUI() {
@@ -31,9 +31,8 @@ public class ArmybuilderGUI extends JFrame {
         setLocation(200, 150);
         setVisible(true);
 
-
-        drukhari = new Drukhari();
-
+        String team= JOptionPane.showInputDialog("Print 1 for Drukhari");
+        this.team = new Team(team);
 
         addPanels();
         //initListeners();
@@ -43,12 +42,15 @@ public class ArmybuilderGUI extends JFrame {
         JPanel panel = new JPanel(new BorderLayout());
         addToList = new JButton("Add");
         save = new JButton("Save");
+        readList= new JButton("Read file");
+        deleteFromUnitList=new JButton("Delete");
         decriptionArea= new JTextArea();
         totalCost= new JLabel();
 
         unitsList = new JList();
         chosenUnitsList = new JList();
         equipmentList = new JList();
+        traitsList= new JList();
 
         panel.add(midPanel(), BorderLayout.CENTER);
         panel.add(leftPanel(), BorderLayout.WEST);
@@ -64,7 +66,8 @@ public class ArmybuilderGUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout());
         //panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
         panel.setPreferredSize(new Dimension(300, 600));
-        //chosenUnitsList.setListData();
+        traitsList.setListData(team.getTraitsList());
+        panel.add(traitsList);
         panel.add(chosenUnitsList);
 
         return panel;
@@ -74,20 +77,22 @@ public class ArmybuilderGUI extends JFrame {
         JPanel panel = new JPanel(new GridLayout());
         //panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
         panel.setPreferredSize(new Dimension(300, 600));
-        unitsList.setListData(drukhari.getHQ());
-        equipmentList.setListData(drukhari.getEquipment());
+        unitsList.setListData(team.getHQ());
+        equipmentList.setListData(team.getEquipment());
         panel.add(unitsList);
         panel.add(equipmentList);
         return panel;
     }
 
     private JPanel rightPanel() {
-        JPanel panel = new JPanel(new BorderLayout());
+        JPanel panel = new JPanel(new FlowLayout());
         //panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
         panel.setPreferredSize(new Dimension(300, 600));
-        panel.add(decriptionArea,BorderLayout.CENTER);
-        panel.add(totalCost,BorderLayout.SOUTH);
-        panel.add(save,BorderLayout.SOUTH);
+        panel.add(decriptionArea);
+        panel.add(totalCost);
+        panel.add(save);
+        panel.add(readList);
+        panel.add(deleteFromUnitList);
 
         return panel;
     }
@@ -96,18 +101,21 @@ public class ArmybuilderGUI extends JFrame {
         ActionListener listener = new armyListener();
         addToList.addActionListener(listener);
         save.addActionListener(listener);
+        readList.addActionListener(listener);
+        deleteFromUnitList.addActionListener(listener);
         unitsList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() > 0) {
                     String hej = (String) unitsList.getSelectedValue();
-                    decriptionArea.setText(drukhari.getDescription(hej));
+                    decriptionArea.setText(team.getDescription(hej));
                 }
                 if (e.getClickCount() > 1) {
                     int selectedIndex = unitsList.getSelectedIndex();
-                    drukhari.addtoList(selectedIndex);
-                    chosenUnitsList.setListData(drukhari.getUnitList());
-                    totalCost.setText("Total Cost: " + String.valueOf(drukhari.getTotalCost()));
+                    String selectedName= (String) unitsList.getSelectedValue();
+                    team.addtoList(selectedIndex,selectedName);
+                    chosenUnitsList.setListData(team.getUnitList());
+                    totalCost.setText("Total Cost: " + String.valueOf(team.getTotalCost()));
                 }
             }
         });
@@ -117,7 +125,7 @@ public class ArmybuilderGUI extends JFrame {
                 if (e.getClickCount() > 0) {
                     String selectedIndex = (String) chosenUnitsList.getSelectedValue();
                     System.out.println(selectedIndex);
-                    decriptionArea.setText(drukhari.getDescription(selectedIndex));
+                    decriptionArea.setText(team.getDescription(selectedIndex));
                 }
             }
         });
@@ -127,10 +135,23 @@ public class ArmybuilderGUI extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() > 1) {
                     String name = (String) equipmentList.getSelectedValue();
-                    drukhari.addequipmentToList(name);
-                    equipmentList.setListData(drukhari.getEquipment());
-                    chosenUnitsList.setListData(drukhari.getUnitList());
-                    totalCost.setText("Total Cost: " + String.valueOf(drukhari.getTotalCost()));
+                    team.addequipmentToList(name);
+                    equipmentList.setListData(team.getEquipment());
+                    chosenUnitsList.setListData(team.getUnitList());
+                    totalCost.setText("Total Cost: " + String.valueOf(team.getTotalCost()));
+                }
+            }
+        });
+
+        traitsList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() > 1) {
+                    String name = (String) traitsList.getSelectedValue();
+                    team.addTraitsToList(name);
+                    traitsList.setListData(team.getTraitsList());
+                    chosenUnitsList.setListData(team.getUnitList());
+                    totalCost.setText("Total Cost: " + String.valueOf(team.getTotalCost()));
                 }
             }
         });
@@ -145,11 +166,25 @@ public class ArmybuilderGUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             if (e.getSource()==save){
                 try {
-                    drukhari.saveList();
+                    team.saveList();
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
             }
+            else if (e.getSource()==readList){
+                String fileName= JOptionPane.showInputDialog("File name");
+                try {
+                    chosenUnitsList.setListData(team.readArmyList(fileName));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+            }
+            else if (e.getSource()==deleteFromUnitList) {
+                int index = chosenUnitsList.getSelectedIndex();
+
+                chosenUnitsList.setListData(team.deleteFromUnitList(index));
+            }
         }
+
     }
 }

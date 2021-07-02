@@ -233,9 +233,10 @@ public class GUI extends JFrame {
         panel.add(exploding6);
         panel.add(teslaShots);
         panel.add(shotsLabel);
+        panel.add(fnp5);
         panel.add(shots);
         panel.add(armybuilderButton);
-        panel.add(fnp5);
+
         return panel;
 
     }
