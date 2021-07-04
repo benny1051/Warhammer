@@ -7,14 +7,14 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="jfreechart-demo-1.5.2-jar-with-dependencies" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/jfreechart-demo-1.5.2-jar-with-dependencies.jar!/" />
+          <root url="file://$MODULE_DIR$/jar_files" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+        <jarDirectory url="file://$MODULE_DIR$/jar_files" recursive="false" />
       </library>
     </orderEntry>
   </component>

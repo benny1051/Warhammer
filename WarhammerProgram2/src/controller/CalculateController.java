@@ -1,5 +1,6 @@
 package controller;
 
+import model.Plot2;
 import model.RandomDice;
 
 import java.beans.PropertyChangeEvent;
@@ -110,11 +111,18 @@ import java.util.Random;
         }
 
     public void averageMethod(){
+            int[] hitsArray =new int[numOfShots];
+            for(int i=0;i<numOfShots;i++){
+                hitsArray[i]=0;
+            }
         for (int i = 0; i < 10000; i++) {
+            int temp1=numOfHits;
             calculateHits=new CalculateHits(bs,numOfShots, rerollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive,dakka);
             calculateWounds= new CalculateWounds();
             calculateSaves =new CalculateSaves();
             numOfHits = calculateHits.calculateNumberOfHits();
+            int temp2=numOfHits;
+            hitsArray[temp2-temp1]++;
             numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds);
             savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5);
 
@@ -131,6 +139,8 @@ import java.util.Random;
         result.add("Average hits "+ averageHits);
         result.add("Average wounds "+ averageWounds);
         result.add("Average Wounds taken: "+ averageDamage);
+        Plot2 plot2= new Plot2(hitsArray);
+
     }
     }
 
