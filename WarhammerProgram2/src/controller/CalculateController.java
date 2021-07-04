@@ -3,6 +3,7 @@ package controller;
 import model.Plot2;
 import model.RandomDice;
 
+import javax.swing.*;
 import java.beans.PropertyChangeListener;
     import java.beans.PropertyChangeSupport;
     import java.util.ArrayList;
@@ -99,7 +100,7 @@ public class CalculateController {
 
                 }
             }
-           // averageMethod();
+           averageMethod();
             changes.firePropertyChange("message", false, result.toArray());
         }
 
@@ -111,26 +112,29 @@ public class CalculateController {
         }
 
     public void averageMethod(){
-            int[] hitsArray =new int[numOfShots];
-            for(int i=0;i<numOfShots;i++){
+            int[] hitsArray =new int[2*numOfShots];
+            for(int i=0;i<numOfShots*2;i++){
                 hitsArray[i]=0;
             }
+        int temp1=0;
+            int temp2=0;
+
         for (int i = 0; i < 10000; i++) {
-            int temp1=numOfHits;
             calculateHits=new CalculateHits(bs,numOfShots, rerollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive,dakka);
             calculateWounds= new CalculateWounds();
             calculateSaves =new CalculateSaves();
             numOfHits = calculateHits.calculateNumberOfHits();
-            int temp2=numOfHits;
+            temp2=temp2+numOfHits;
             hitsArray[temp2-temp1]++;
-            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds);
+            temp1=temp2;
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds,autoWound6, sixesFromHitsClass);
             savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5);
 
 
-            int averageDamageTaken = (numOfWounds - savedWound);
-            averageHits = (averageHits + numOfHits);
-            averageWounds=(averageWounds+numOfWounds);
-            averageDamage=(averageDamage+averageDamageTaken);
+            //int averageDamageTaken = (numOfWounds - savedWound);
+            //averageHits = (averageHits + numOfHits);
+            //averageWounds=(averageWounds+numOfWounds);
+            //averageDamage=(averageDamage+averageDamageTaken);
 
         }
         averageHits= averageHits/10000;

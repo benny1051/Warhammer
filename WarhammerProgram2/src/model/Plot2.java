@@ -16,6 +16,7 @@ private int[] hitsArray;
 
     public Plot2(int[] hitsArray) {
         this.hitsArray=hitsArray;
+
         startPlot();
 
         // Create dataset
@@ -29,7 +30,7 @@ private int[] hitsArray;
 
         //Changes background color
         XYPlot plot = (XYPlot)chart.getPlot();
-        plot.setBackgroundPaint(new Color(205,228,196));
+        plot.setBackgroundPaint(new Color(50,255,0));
 
 
         // Create Panel
@@ -41,25 +42,10 @@ private int[] hitsArray;
         XYSeriesCollection dataset = new XYSeriesCollection();
         //Boys (Age,weight) series
         XYSeries series1 = new XYSeries("HITS");
-        for(int i=0;i<10;i++) {
+        for(int i=0;i<hitsArray.length;i++) {
             series1.add(i,hitsArray[i]);
         }
         dataset.addSeries(series1);
-
-        //Girls (Age,weight) series
-        XYSeries series2 = new XYSeries("Girls");
-        series2.add(1, 72.5);
-        series2.add(2, 80.1);
-        series2.add(3, 87.2);
-        series2.add(4, 94.5);
-        series2.add(5, 101.4);
-        series2.add(6, 107.4);
-        series2.add(7, 112.8);
-        series2.add(8, 118.2);
-        series2.add(9, 122.9);
-        series2.add(10, 123.4);
-
-        dataset.addSeries(series2);
 
         return dataset;
     }
@@ -69,7 +55,6 @@ private int[] hitsArray;
 
             setSize(1000, 600);
             setLocationRelativeTo(null);
-            setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setVisible(true);
         });
     }
