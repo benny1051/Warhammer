@@ -17,10 +17,10 @@ public class CalculateSaves {
 
 
     public int calculateSaves(int numOfWounds, int AP, int save, boolean feelNoPain5) {
-        System.out.print("Saves: ");
+       // System.out.print("Saves: ");
         for (int i = 0; i < numOfWounds; i++) {
             int diceRoll = randomDice.randomD6();
-            System.out.print(diceRoll + ",");
+          //  System.out.print(diceRoll + ",");
 
             if (AP == 0) {
                 if (save == 0 && diceRoll >= 2) {
@@ -152,7 +152,7 @@ public class CalculateSaves {
        if (feelNoPain5) {
            for (int i = 0; i < possibleFNP; i++) {
                int diceRoll = randomDice.randomD6();
-               System.out.print(diceRoll + "FNP,");
+             //  System.out.print(diceRoll + "FNP,");
                if (diceRoll>=5){
                    savedWound++;
                }

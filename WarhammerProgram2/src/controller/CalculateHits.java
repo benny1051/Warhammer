@@ -18,27 +18,29 @@ public class CalculateHits {
     private int diceNbrFive;
     private int diceNbrSix;
     private boolean teslaHits;
+    private boolean dakka;
 
     RandomDice randomDice;
 
-    public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits, boolean explodingSix, boolean teslaHits, boolean explodingFive) {
+    public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits, boolean explodingSix, boolean teslaHits, boolean explodingFive, boolean dakka) {
         this.bs = bs;
         this.numOfShots = numOfShots;
         randomDice = new RandomDice();
         this.reRollHitOnes = reRollHitOnes;
         this.reRollAllHits = reRollAllHits;
-        this.explodingFive=explodingFive;
+        this.explodingFive = explodingFive;
         this.explodingSix = explodingSix;
-        this.teslaHits=teslaHits;
+        this.teslaHits = teslaHits;
+        this.dakka = dakka;
     }
 
     public int calculateNumberOfHits() {
 
-        System.out.print("Hits: ");
+        // System.out.print("Hits: ");
         for (int i = 0; i < numOfShots; i++) {
             int diceRoll = randomDice.randomD6();
 
-            System.out.print(diceRoll + ",");
+            // System.out.print(diceRoll + ",");
             if (diceRoll == 1) {
                 diceNbrOne++;
             }
@@ -79,18 +81,19 @@ public class CalculateHits {
         explodingDiceFive(diceNbrFive, diceNbrSix);
         explodingDice(diceNbrSix);
         tesla(diceNbrSix);
-        System.out.println();
-        System.out.println("Hits: One: " + diceNbrOne + "      Two: " + diceNbrTwo + "        Three: " + diceNbrThree +
-                "       Four: " + diceNbrFour + "      Five: " + diceNbrFive + "        Six: " + diceNbrSix);
-        System.out.println();
+        dakka(diceNbrSix, dakka);
+        //System.out.println();
+        // System.out.println("Hits: One: " + diceNbrOne + "      Two: " + diceNbrTwo + "        Three: " + diceNbrThree +
+        //         "       Four: " + diceNbrFour + "      Five: " + diceNbrFive + "        Six: " + diceNbrSix);
+       // System.out.println();
         return numOfHits;
     }
 
     private void explodingDiceFive(int diceNbrFive, int diceNbrSix) {
         if (explodingFive) {
-            int totalDice=(diceNbrFive+diceNbrSix);
+            int totalDice = (diceNbrFive + diceNbrSix);
             for (int i = 0; i < totalDice; i++) {
-                System.out.print("Expl, ");
+                //     System.out.print("Expl, ");
                 numOfHits++;
             }
         }
@@ -100,7 +103,7 @@ public class CalculateHits {
         if (reRollHitOnes) {
             for (int i = 0; i < diceNbrOne; i++) {
                 int diceRoll = randomDice.randomD6();
-                System.out.print("new " + diceRoll + ",");
+                //      System.out.print("new " + diceRoll + ",");
                 if (diceRoll == 5) {
                     diceNbrFive++;
                 }
@@ -130,7 +133,7 @@ public class CalculateHits {
         if (reRollAllHits) {
             for (int i = 0; i < failedDice; i++) {
                 int diceRoll = randomDice.randomD6();
-                System.out.print("new " + diceRoll + ",");
+                //  System.out.print("new " + diceRoll + ",");
                 if (diceRoll == 5) {
                     diceNbrFive++;
                 }
@@ -159,18 +162,29 @@ public class CalculateHits {
     public void explodingDice(int diceNbrSix) {
         if (explodingSix) {
             for (int i = 0; i < diceNbrSix; i++) {
-                System.out.print("Expl, ");
-                    numOfHits++;
-                }
+                //   System.out.print("Expl, ");
+                numOfHits++;
             }
         }
+    }
 
     public void tesla(int diceNbrSix) {
         if (teslaHits) {
             for (int i = 0; i < diceNbrSix; i++) {
-                System.out.print("Tesla, ");
-                numOfHits= numOfHits+2;
+                //   System.out.print("Tesla, ");
+                numOfHits = numOfHits + 2;
             }
         }
     }
+
+    public void dakka(int diceNbrSix, boolean dakka) {
+        if (dakka) {
+            for (int i = 0; i < diceNbrSix; i++) {
+                int diceRoll = randomDice.randomD6();
+                if (diceRoll >=5){
+                    numOfHits++;
+                }
+            }
+        }
     }
+}

@@ -29,6 +29,7 @@ public class GUI extends JFrame {
     private JRadioButton exploding6;
     private JRadioButton teslaShots;
     private JRadioButton fnp5;
+    private JRadioButton dakka;
     private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
@@ -109,6 +110,7 @@ public class GUI extends JFrame {
         exploding6 = new JRadioButton("Expl 6");
         teslaShots = new JRadioButton("Tesla");
         fnp5 = new JRadioButton("5+ fnp");
+        dakka= new JRadioButton("Dakka");
 
 
         saveList = new JList();
@@ -232,10 +234,11 @@ public class GUI extends JFrame {
         panel.add(exploding5);
         panel.add(exploding6);
         panel.add(teslaShots);
-        panel.add(shotsLabel);
         panel.add(fnp5);
         panel.add(shots);
+        panel.add(shotsLabel);
         panel.add(armybuilderButton);
+        panel.add(dakka);
 
         return panel;
 
@@ -276,9 +279,10 @@ public class GUI extends JFrame {
                 boolean explodingSix=exploding6.isSelected();
                 boolean teslaHits = teslaShots.isSelected();
                 boolean feelNoPain5 = fnp5.isSelected();
+                boolean dakkadakka= dakka.isSelected();
 
                 CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,
-                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive,feelNoPain5);
+                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive,feelNoPain5,dakkadakka);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
             } else if (e.getSource() == reset) {

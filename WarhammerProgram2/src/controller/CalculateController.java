@@ -29,17 +29,24 @@ import java.util.Random;
         private boolean teslaHits;
         private boolean explodingFive;
         private boolean feelNoPain5;
+        private boolean dakka;
+        private double averageHits;
+        private double averageWounds;
+        private double averageDamage;
+        private ArrayList plotHits;
         RandomDice randomDice;
         CalculateHits calculateHits;
         CalculateWounds calculateWounds;
         CalculateSaves calculateSaves;
         CalculateDamage calculateDamage;
+        //CalculateAverage calculateAverage;
 
 
         ArrayList<String> result;
 
         public CalculateController(int bs, int str, int tough, int save, int numOfShots, int AP, int damage, boolean reRollHitOnes,
-                                   boolean reRollWoundOnes, boolean reRollAllHits, boolean reRollAllWounds, boolean explodingSix, boolean teslaHits, boolean explodingFive, boolean feelNoPain5) {
+                                   boolean reRollWoundOnes, boolean reRollAllHits, boolean reRollAllWounds, boolean explodingSix,
+                                   boolean teslaHits, boolean explodingFive, boolean feelNoPain5, boolean dakkadakka) {
             randomDice= new RandomDice();
             calculateWounds=new CalculateWounds();
             calculateSaves= new CalculateSaves();
@@ -59,12 +66,15 @@ import java.util.Random;
             this.explodingSix=explodingSix;
             this.teslaHits= teslaHits;
             this.feelNoPain5= feelNoPain5;
+            this.dakka=dakkadakka;
             result=new ArrayList<String>();
-            calculateHits=new CalculateHits(bs,numOfShots, reRollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive);
-
+            calculateHits=new CalculateHits(bs,numOfShots, reRollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive,dakkadakka);
+            //calculateAverage=new CalculateAverage(bs,numOfShots,str,tough,reRollHitOnes,reRollAllHits,explodingSix,teslaHits,
+              //      explodingFive,reRollWoundOnes,reRollAllWounds,AP, save,feelNoPain5,dakkadakka);
         }
 
         public void start() {
+
             numOfHits = calculateHits.calculateNumberOfHits();
             numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough,reRollWoundOnes,reRollAllWounds);
             savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save,feelNoPain5);
@@ -74,6 +84,7 @@ import java.util.Random;
             result.add("Nbr of wounds " + numOfWounds);
             result.add("saves made " + savedWound);
             result.add("Wounds taken " + damageTaken);
+            averageMethod();
             result.add(calculateDamage.calculateTheDamage(damage));
             if (damage == 0) {
                 for (int i = 0; i < damageTaken; i++) {
@@ -84,8 +95,10 @@ import java.util.Random;
                 for (int i = 0; i < damageTaken; i++) {
                     int randomD6 = randomDice.randomD6();
                     result.add("D6 Damage = " + randomD6);
+
                 }
             }
+
             changes.firePropertyChange("message", false, result.toArray());
         }
 
@@ -96,11 +109,29 @@ import java.util.Random;
             changes.removePropertyChangeListener(listener);
         }
 
+    public void averageMethod(){
+        for (int i = 0; i < 10000; i++) {
+            calculateHits=new CalculateHits(bs,numOfShots, rerollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive,dakka);
+            calculateWounds= new CalculateWounds();
+            calculateSaves =new CalculateSaves();
+            numOfHits = calculateHits.calculateNumberOfHits();
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds);
+            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5);
 
 
-
-
-
+            int averageDamageTaken = (numOfWounds - savedWound);
+            averageHits = (averageHits + numOfHits);
+            averageWounds=(averageWounds+numOfWounds);
+            averageDamage=(averageDamage+averageDamageTaken);
 
         }
+        averageHits= averageHits/10000;
+        averageWounds=averageWounds/10000;
+        averageDamage=averageDamage/10000;
+        result.add("Average hits "+ averageHits);
+        result.add("Average wounds "+ averageWounds);
+        result.add("Average Wounds taken: "+ averageDamage);
+    }
+    }
+
 

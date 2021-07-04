@@ -21,11 +21,11 @@ public class CalculateWounds {
 
         str = str + 3;
         tough = tough + 3;
-        System.out.print("Wounds: ");
+       // System.out.print("Wounds: ");
 
         for (int i = 0; i < numOfHits; i++) {
             int diceRoll = randomDice.randomD6();
-            System.out.print(diceRoll + ",");
+         //   System.out.print(diceRoll + ",");
 
             if (diceRoll == 1) {
                 diceNbrOne++;
@@ -61,7 +61,7 @@ public class CalculateWounds {
         if (reRollWoundOnes) {
             for (int i = 0; i < diceNbrOne; i++) {
                 int diceRoll = randomDice.randomD6();
-                System.out.print("new " + diceRoll + ",");
+              //  System.out.print("new " + diceRoll + ",");
                 if (str == tough && diceRoll >= 4) {
                     numOfWounds++;
                 }
@@ -86,7 +86,7 @@ public class CalculateWounds {
         if (reRollAllWounds) {
             for (int i = 0; i < failedWounds; i++) {
                 int diceRoll = randomDice.randomD6();
-                System.out.print("new " + diceRoll + ",");
+               // System.out.print("new " + diceRoll + ",");
 
                 if (str == tough && diceRoll >= 4) {
                     numOfWounds++;
