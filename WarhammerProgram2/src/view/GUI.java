@@ -168,6 +168,7 @@ public class GUI extends JFrame {
         panel.add(armorPiercingPanel());
         return panel;
     }
+
     private JPanel rightPanel() {
         JPanel panel = new JPanel(new GridLayout());
         //panel.setBorder(BorderFactory.createTitledBorder("Strength characteristic"));
@@ -228,6 +229,7 @@ public class GUI extends JFrame {
         JPanel panel= new JPanel(new FlowLayout());
        // rerollOneToHit.setPreferredSize(new Dimension(200,30));
         // rerollOneToWound.setPreferredSize(new Dimension(200,30));
+        panel.setPreferredSize(new Dimension(300,400));
         panel.add(rerollOneToHit);
         panel.add(rerollAllHits);
         panel.add(rerollOneToWound);

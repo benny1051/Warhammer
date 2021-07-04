@@ -131,10 +131,10 @@ public class CalculateController {
             savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5);
 
 
-            //int averageDamageTaken = (numOfWounds - savedWound);
-            //averageHits = (averageHits + numOfHits);
-            //averageWounds=(averageWounds+numOfWounds);
-            //averageDamage=(averageDamage+averageDamageTaken);
+            int averageDamageTaken = (numOfWounds - savedWound);
+            averageHits = (averageHits + numOfHits);
+            averageWounds=(averageWounds+numOfWounds);
+            averageDamage=(averageDamage+averageDamageTaken);
 
         }
         averageHits= averageHits/10000;
