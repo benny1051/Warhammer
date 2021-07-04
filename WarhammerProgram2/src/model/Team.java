@@ -10,6 +10,7 @@ public class Team {
     private int totalCost;
     private String[] HQ= new String[40];
 
+
     private ArrayList<String> unitList;
     private String[] descriptionArray = {"Power from pain\n2+ invuln that last until a 1 is rolled.(cant reroll)\nKabal and Incubi reroll 1 to hit",
     "Power from pain\nCombat Drugs\n4+invuln\n wych cult reroll 1 to wound within 6'\nEnemies must win rolloff to fall back",

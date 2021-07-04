@@ -2,12 +2,11 @@ package controller;
 
 import model.RandomDice;
 
-import java.util.Random;
-
 public class CalculateWounds {
 
     private int numOfWounds;
     private int diceNbrOne;
+
 
     RandomDice randomDice;
 
@@ -17,15 +16,15 @@ public class CalculateWounds {
 
     }
 
-    public int CalculateNumOfWounds(int numOfHits, int str, int tough, boolean reRollWoundOnes, boolean reRollAllWounds) {
+    public int CalculateNumOfWounds(int numOfHits, int str, int tough, boolean reRollWoundOnes, boolean reRollAllWounds, boolean autoWound6, int sixesFromHitsClass) {
 
         str = str + 3;
         tough = tough + 3;
        // System.out.print("Wounds: ");
-
+       numOfHits= autoWoundSixes(sixesFromHitsClass, autoWound6,numOfHits);
         for (int i = 0; i < numOfHits; i++) {
             int diceRoll = randomDice.randomD6();
-         //   System.out.print(diceRoll + ",");
+           // System.out.print(diceRoll + ",");
 
             if (diceRoll == 1) {
                 diceNbrOne++;
@@ -48,10 +47,11 @@ public class CalculateWounds {
             }
 
         }
+
         reRollWound1(diceNbrOne, reRollWoundOnes, str, tough);
         int failedWounds = (numOfHits-numOfWounds);
         reRollAll(str, tough, reRollAllWounds,failedWounds);
-        System.out.println();
+       // System.out.println();
 
         return numOfWounds;
     }
@@ -106,4 +106,14 @@ public class CalculateWounds {
             }
         }
     }
-}
+    public int autoWoundSixes(int diceNbrSix, boolean autoWound6, int numOfHits) {
+        if (autoWound6) {
+
+            for (int i = 0; i < diceNbrSix; i++) {
+                    numOfWounds++;
+                    numOfHits--;
+                }
+            }
+        return numOfHits;
+        }
+    }
