@@ -1,3 +1,4 @@
+/*
 package model;
 
 import org.jfree.chart.ChartFactory;
@@ -13,11 +14,13 @@ import org.jfree.ui.RefineryUtilities;
 
 public class XYSeriesDemo extends ApplicationFrame {
 
-    /**
+    */
+/**
      * A demonstration application showing an XY series containing a null value.
      *
      * @param title  the frame title.
-     */
+     *//*
+
     public XYSeriesDemo(final String title) {
 
         super(title);
@@ -60,11 +63,13 @@ public class XYSeriesDemo extends ApplicationFrame {
 // * support us so that we can continue developing free software.             *
 // ****************************************************************************
 
-    /**
+    */
+/**
      * Starting point for the demonstration application.
      *
      * @param args  ignored.
-     */
+     *//*
+
     public static void main(final String[] args) {
 
         final XYSeriesDemo demo = new XYSeriesDemo("XY Series Demo");
@@ -74,4 +79,4 @@ public class XYSeriesDemo extends ApplicationFrame {
 
     }
 
-}
+}*/

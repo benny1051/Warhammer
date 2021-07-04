@@ -20,6 +20,7 @@ public class CalculateHits {
     private boolean teslaHits;
     private boolean dakka;
 
+
     RandomDice randomDice;
 
     public CalculateHits(int bs, int numOfShots, boolean reRollHitOnes, boolean reRollAllHits, boolean explodingSix, boolean teslaHits, boolean explodingFive, boolean dakka) {
@@ -36,11 +37,11 @@ public class CalculateHits {
 
     public int calculateNumberOfHits() {
 
-        // System.out.print("Hits: ");
+       //  System.out.print("Hits: ");
         for (int i = 0; i < numOfShots; i++) {
             int diceRoll = randomDice.randomD6();
 
-            // System.out.print(diceRoll + ",");
+             System.out.print(diceRoll + ",");
             if (diceRoll == 1) {
                 diceNbrOne++;
             }
@@ -82,6 +83,7 @@ public class CalculateHits {
         explodingDice(diceNbrSix);
         tesla(diceNbrSix);
         dakka(diceNbrSix, dakka);
+
         //System.out.println();
         // System.out.println("Hits: One: " + diceNbrOne + "      Two: " + diceNbrTwo + "        Three: " + diceNbrThree +
         //         "       Four: " + diceNbrFour + "      Five: " + diceNbrFive + "        Six: " + diceNbrSix);
@@ -186,5 +188,9 @@ public class CalculateHits {
                 }
             }
         }
+    }
+
+    public int getDiceNbrSix() {
+        return diceNbrSix;
     }
 }

@@ -2,13 +2,11 @@ package controller;
 
 import model.RandomDice;
 
-import java.beans.PropertyChangeEvent;
-    import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeListener;
     import java.beans.PropertyChangeSupport;
     import java.util.ArrayList;
-import java.util.Random;
 
-    public class CalculateController {
+public class CalculateController {
         private final PropertyChangeSupport changes= new PropertyChangeSupport(this);
         private int bs;
         private int str;
@@ -30,23 +28,25 @@ import java.util.Random;
         private boolean explodingFive;
         private boolean feelNoPain5;
         private boolean dakka;
+        private boolean autoWound6;
         private double averageHits;
         private double averageWounds;
         private double averageDamage;
+        private int sixesFromHitsClass;
+
+
         private ArrayList plotHits;
         RandomDice randomDice;
         CalculateHits calculateHits;
         CalculateWounds calculateWounds;
         CalculateSaves calculateSaves;
         CalculateDamage calculateDamage;
-        //CalculateAverage calculateAverage;
-
 
         ArrayList<String> result;
 
         public CalculateController(int bs, int str, int tough, int save, int numOfShots, int AP, int damage, boolean reRollHitOnes,
                                    boolean reRollWoundOnes, boolean reRollAllHits, boolean reRollAllWounds, boolean explodingSix,
-                                   boolean teslaHits, boolean explodingFive, boolean feelNoPain5, boolean dakkadakka) {
+                                   boolean teslaHits, boolean explodingFive, boolean feelNoPain5, boolean dakkadakka, boolean autoWoundingOn6) {
             randomDice= new RandomDice();
             calculateWounds=new CalculateWounds();
             calculateSaves= new CalculateSaves();
@@ -67,16 +67,16 @@ import java.util.Random;
             this.teslaHits= teslaHits;
             this.feelNoPain5= feelNoPain5;
             this.dakka=dakkadakka;
+            this.autoWound6=autoWoundingOn6;
             result=new ArrayList<String>();
             calculateHits=new CalculateHits(bs,numOfShots, reRollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive,dakkadakka);
-            //calculateAverage=new CalculateAverage(bs,numOfShots,str,tough,reRollHitOnes,reRollAllHits,explodingSix,teslaHits,
-              //      explodingFive,reRollWoundOnes,reRollAllWounds,AP, save,feelNoPain5,dakkadakka);
         }
 
         public void start() {
 
             numOfHits = calculateHits.calculateNumberOfHits();
-            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough,reRollWoundOnes,reRollAllWounds);
+            sixesFromHitsClass= calculateHits.getDiceNbrSix();
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough,reRollWoundOnes,reRollAllWounds,autoWound6,sixesFromHitsClass);
             savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save,feelNoPain5);
 
             damageTaken = (numOfWounds - savedWound);
@@ -84,7 +84,7 @@ import java.util.Random;
             result.add("Nbr of wounds " + numOfWounds);
             result.add("saves made " + savedWound);
             result.add("Wounds taken " + damageTaken);
-            averageMethod();
+
             result.add(calculateDamage.calculateTheDamage(damage));
             if (damage == 0) {
                 for (int i = 0; i < damageTaken; i++) {
@@ -98,7 +98,7 @@ import java.util.Random;
 
                 }
             }
-
+           // averageMethod();
             changes.firePropertyChange("message", false, result.toArray());
         }
 
@@ -115,7 +115,7 @@ import java.util.Random;
             calculateWounds= new CalculateWounds();
             calculateSaves =new CalculateSaves();
             numOfHits = calculateHits.calculateNumberOfHits();
-            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds);
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds, autoWound6, sixesFromHitsClass);
             savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5);
 
 
