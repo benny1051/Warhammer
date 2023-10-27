@@ -6,6 +6,7 @@ public class CalculateWounds {
 
     private int numOfWounds;
     private int diceNbrOne;
+    private int diceNbrSix;
 
 
     RandomDice randomDice;
@@ -16,7 +17,7 @@ public class CalculateWounds {
 
     }
 
-    public int CalculateNumOfWounds(int numOfHits, int str, int tough, boolean reRollWoundOnes, boolean reRollAllWounds, boolean autoWound6, int sixesFromHitsClass) {
+    public int CalculateNumOfWounds(int numOfHits, int str, int tough, boolean reRollWoundOnes, boolean reRollAllWounds, boolean autoWound6, int sixesFromHitsClass, boolean devWounds) {
 
         str = str + 3;
         tough = tough + 3;
@@ -28,6 +29,9 @@ public class CalculateWounds {
 
             if (diceRoll == 1) {
                 diceNbrOne++;
+            }
+            if (diceRoll == 6 && devWounds) {
+                diceNbrSix++;
             }
 
             if (str == tough && diceRoll >= 4) {
@@ -43,7 +47,9 @@ public class CalculateWounds {
                 numOfWounds++;
             }
             if (tough >= (str * 2) && diceRoll >= 6) {
-                numOfWounds++;
+                if (devWounds) {
+                    numOfWounds =numOfWounds+ 2;
+                }
             }
 
         }
@@ -51,8 +57,11 @@ public class CalculateWounds {
         reRollWound1(diceNbrOne, reRollWoundOnes, str, tough);
         int failedWounds = (numOfHits-numOfWounds);
         reRollAll(str, tough, reRollAllWounds,failedWounds);
-       // System.out.println();
 
+       // System.out.println();
+            if (devWounds){
+                numOfWounds=numOfWounds-diceNbrSix;
+            }
         return numOfWounds;
     }
 
@@ -116,4 +125,9 @@ public class CalculateWounds {
             }
         return numOfHits;
         }
+
+         public int getDiceNbrSix() {
+        return diceNbrSix;
     }
+
+}

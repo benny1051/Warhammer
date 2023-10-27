@@ -31,6 +31,7 @@ public class GUI extends JFrame {
     private JRadioButton fnp5;
     private JRadioButton dakka;
     private JRadioButton autoWound;
+    private JRadioButton devWounds;
     private JScrollPane ballisticScrollPane;
 
     private ArrayList<String> saveArray;
@@ -65,12 +66,12 @@ public class GUI extends JFrame {
         }
 
         strengthArray=new ArrayList<String>();
-        for (int i = 3; i <= 16; i++) {
+        for (int i = 3; i <= 20; i++) {
             strengthArray.add("Strength " + i)          ;
         }
 
         toughnessArray=new ArrayList<String>();
-        for (int i = 3; i <= 10; i++) {
+        for (int i = 3; i <= 12; i++) {
             toughnessArray.add("Toughness " + i)          ;
         }
 
@@ -107,12 +108,13 @@ public class GUI extends JFrame {
         rerollOneToWound= new JRadioButton("Reroll 1´s to wound");
         rerollAllHits = new JRadioButton("Reroll all hits");
         rerollAllWounds = new JRadioButton("Reroll all wounds");
-        exploding5 = new JRadioButton("expl 5");
-        exploding6 = new JRadioButton("Expl 6");
+        exploding5 = new JRadioButton("substained 5or");
+        exploding6 = new JRadioButton("substained 6or");
         teslaShots = new JRadioButton("Tesla");
         fnp5 = new JRadioButton("5+ fnp");
         dakka= new JRadioButton("Dakka");
-        autoWound= new JRadioButton("Autowound");
+        autoWound= new JRadioButton("lethal hits");
+        devWounds= new JRadioButton("dev wounds");
 
         saveList = new JList();
         ballisticSkillList=new JList();
@@ -241,8 +243,10 @@ public class GUI extends JFrame {
         panel.add(armybuilderButton);
         panel.add(dakka);
         panel.add(autoWound);
+        panel.add(devWounds);
         panel.add(shotsLabel);
         panel.add(shots);
+
         return panel;
 
     }
@@ -284,9 +288,10 @@ public class GUI extends JFrame {
                 boolean feelNoPain5 = fnp5.isSelected();
                 boolean dakkadakka= dakka.isSelected();
                 boolean autoWoundingOn6= autoWound.isSelected();
+                boolean devestatingWounds=devWounds.isSelected();
 
                 CalculateController calculateController = new CalculateController(bs, str, tough, save, numOfShots, AP, damage,reRollHitOnes,
-                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive,feelNoPain5,dakkadakka,autoWoundingOn6);
+                        reRollWoundOnes,reRollAllHits,reRollAllWounds,explodingSix,teslaHits,explodingFive,feelNoPain5,dakkadakka,autoWoundingOn6,devestatingWounds);
                 calculateController.addPropertyChangeListener(new AlarmPrinter());
                 calculateController.start();
             } else if (e.getSource() == reset) {

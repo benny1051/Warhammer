@@ -2,8 +2,6 @@ package controller;
 
 import model.RandomDice;
 
-import java.util.Random;
-
 public class CalculateSaves {
 
     RandomDice randomDice;
@@ -16,7 +14,7 @@ public class CalculateSaves {
     }
 
 
-    public int calculateSaves(int numOfWounds, int AP, int save, boolean feelNoPain5) {
+    public int calculateSaves(int numOfWounds, int AP, int save, boolean feelNoPain5, int numOfDevWounds) {
        // System.out.print("Saves: ");
         for (int i = 0; i < numOfWounds; i++) {
             int diceRoll = randomDice.randomD6();
@@ -141,6 +139,7 @@ public class CalculateSaves {
                 }
             }
         }
+
         int possibleFNP= numOfWounds-savedWound;
         flNoPain5(possibleFNP,feelNoPain5);
 

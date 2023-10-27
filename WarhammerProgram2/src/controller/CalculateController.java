@@ -3,7 +3,6 @@ package controller;
 import model.Plot2;
 import model.RandomDice;
 
-import javax.swing.*;
 import java.beans.PropertyChangeListener;
     import java.beans.PropertyChangeSupport;
     import java.util.ArrayList;
@@ -31,10 +30,13 @@ public class CalculateController {
         private boolean feelNoPain5;
         private boolean dakka;
         private boolean autoWound6;
+        private boolean devWounds;
         private double averageHits;
         private double averageWounds;
         private double averageDamage;
         private int sixesFromHitsClass;
+        private int numOfDevWounds;
+        private int averageDamageTaken;
 
 
         private ArrayList plotHits;
@@ -48,7 +50,7 @@ public class CalculateController {
 
         public CalculateController(int bs, int str, int tough, int save, int numOfShots, int AP, int damage, boolean reRollHitOnes,
                                    boolean reRollWoundOnes, boolean reRollAllHits, boolean reRollAllWounds, boolean explodingSix,
-                                   boolean teslaHits, boolean explodingFive, boolean feelNoPain5, boolean dakkadakka, boolean autoWoundingOn6) {
+                                   boolean teslaHits, boolean explodingFive, boolean feelNoPain5, boolean dakkadakka, boolean autoWoundingOn6, boolean devestatingWounds) {
             randomDice= new RandomDice();
             calculateWounds=new CalculateWounds();
             calculateSaves= new CalculateSaves();
@@ -70,18 +72,26 @@ public class CalculateController {
             this.feelNoPain5= feelNoPain5;
             this.dakka=dakkadakka;
             this.autoWound6=autoWoundingOn6;
+            this.devWounds=devestatingWounds;
             result=new ArrayList<String>();
             calculateHits=new CalculateHits(bs,numOfShots, reRollHitOnes,reRollAllHits,explodingSix,teslaHits,explodingFive,dakkadakka);
+
         }
 
         public void start() {
 
             numOfHits = calculateHits.calculateNumberOfHits();
             sixesFromHitsClass= calculateHits.getDiceNbrSix();
-            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough,reRollWoundOnes,reRollAllWounds,autoWound6,sixesFromHitsClass);
-            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save,feelNoPain5);
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits,str,tough,reRollWoundOnes,reRollAllWounds,autoWound6,sixesFromHitsClass,devWounds);
+            numOfDevWounds=calculateWounds.getDiceNbrSix();
+            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save,feelNoPain5,numOfDevWounds);
+            if (devWounds){
+                damageTaken = (numOfWounds - savedWound + numOfDevWounds);
+                result.add("dev wounds " + numOfDevWounds);
+            }else {
+                damageTaken = (numOfWounds - savedWound);
+            }
 
-            damageTaken = (numOfWounds - savedWound);
             result.add("Nbr of hits " + numOfHits);
             result.add("Nbr of wounds " + numOfWounds);
             result.add("saves made " + savedWound);
@@ -127,11 +137,15 @@ public class CalculateController {
             temp2=temp2+numOfHits;
             hitsArray[temp2-temp1]++;
             temp1=temp2;
-            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds,autoWound6, sixesFromHitsClass);
-            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5);
+            numOfWounds = calculateWounds.CalculateNumOfWounds(numOfHits, str, tough, reRollWoundOnes, reRollAllWounds,autoWound6, sixesFromHitsClass, devWounds);
+            numOfDevWounds=calculateWounds.getDiceNbrSix();
+            savedWound = calculateSaves.calculateSaves(numOfWounds, AP, save, feelNoPain5, numOfDevWounds);
 
-
-            int averageDamageTaken = (numOfWounds - savedWound);
+            if (devWounds){
+                averageDamageTaken = (numOfWounds - savedWound + numOfDevWounds);
+            }else {
+                averageDamageTaken = (numOfWounds - savedWound);
+            }
             averageHits = (averageHits + numOfHits);
             averageWounds=(averageWounds+numOfWounds);
             averageDamage=(averageDamage+averageDamageTaken);
@@ -140,10 +154,12 @@ public class CalculateController {
         averageHits= averageHits/10000;
         averageWounds=averageWounds/10000;
         averageDamage=averageDamage/10000;
-        result.add("Average hits "+ averageHits);
-        result.add("Average wounds "+ averageWounds);
-        result.add("Average Wounds taken: "+ averageDamage);
-        Plot2 plot2= new Plot2(hitsArray);
+        result.add("Avg hits "+ averageHits);
+        result.add("Avg wounds "+ averageWounds);
+        result.add("Avg Wounds taken: "+ averageDamage);
+
+
+        //Plot2 plot2= new Plot2(hitsArray);
 
     }
     }
